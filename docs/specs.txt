@@ -1,0 +1,45 @@
+Brief:
+
+- easy to add new song titles and artists
+- easy to rank the songs (drag and drop?)
+- simple login (password in config file)
+
+
+Technical:
+
+As there will not be so many songs, we can just use an order number for each song. If we move song to a new place,
+then every song below it will have its order number increased by one. Dee to the limited amount of songs, even in
+worst case scenario, the update won't take too long to process (1000 - 3000 songs).
+
+In order to not have to manually add all songs, import the playlist from iTunes. Some of those songs have a rating
+(1-5 stars), we can convert those ratings to use the range 1-100 for a bigger range. We need to figure out what range
+each star consist of.
+
+Example:
+
+0 stars: no value
+1 star: 1-20
+2 stars: 21-40
+3 stars: 41-60
+4 stars: 61-80
+5 stars: 81-100
+
+
+
+
+Database schema:
+
+song:
+
+    - id (uuid)
+    - itunes_id (int) // if we someday want to import additional song metadata
+    - name (varchar)
+    - artist (varchar)
+    - album (nullable, varchar)
+    - rating
+    - play_count
+    - created_at
+    - updated_at
+
+
+
