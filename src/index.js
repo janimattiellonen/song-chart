@@ -1,11 +1,25 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import { Provider } from 'react-redux'
+import { ConnectedRouter } from 'connected-react-router'
+import { Route } from 'react-router-dom'
+
+import configureStore, { history } from './store'
+
 import App from './App'
 import * as serviceWorker from './serviceWorker'
 
+const store = configureStore()
+
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Provider store={store}>
+      <ConnectedRouter history={history}>
+        <Route exact path={'/'}>
+          <App />
+        </Route>
+      </ConnectedRouter>
+    </Provider>
   </React.StrictMode>,
   document.getElementById('root')
 )
