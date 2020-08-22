@@ -2,16 +2,13 @@ import React, { useRef } from 'react'
 import styled from '@emotion/styled'
 
 import { useDrag, useDrop } from 'react-dnd'
-const style = {
-  border: '1px dashed gray',
-  padding: '0.5rem 1rem',
-  marginBottom: '.5rem',
-  backgroundColor: 'white',
-  cursor: 'move',
-  color: 'red'
-}
+
+import { Rating } from './Rating'
 
 const StyledCard = styled('div')({
+  display: 'flex',
+  justifyContent: 'space-between',
+  textAlign: 'left',
   border: '1px solid #020202',
   padding: '0.5rem 1rem',
   marginBottom: '.5rem',
@@ -20,7 +17,25 @@ const StyledCard = styled('div')({
   color: 'white'
 })
 
-export const Card = ({ id, text, index, moveCard }) => {
+const createCardName = (card) => (
+  <>
+    <span style={{ display: 'block', marginBottom: '5px' }}>{card.name}</span>
+
+    <span style={{ fontSize: '11px' }}>{card.composer || card.artist}</span>
+  </>
+)
+
+/*
+      <Card
+        card={card}
+        key={card.itunesId}
+        index={index}
+        id={card.itunesId}
+        text={createCardName(card)}
+        moveCard={moveCard}
+      />
+ */
+export const Card = ({ card, index, moveCard }) => {
   const ItemTypes = {
     CARD: 'card'
   }
@@ -79,7 +94,7 @@ export const Card = ({ id, text, index, moveCard }) => {
     }
   })
   const [{ isDragging }, drag] = useDrag({
-    item: { type: ItemTypes.CARD, id, index },
+    item: { type: ItemTypes.CARD, id: card.itunesId, index },
     collect: (monitor) => ({
       isDragging: monitor.isDragging()
     })
@@ -87,5 +102,15 @@ export const Card = ({ id, text, index, moveCard }) => {
   const opacity = isDragging ? 0 : 1
   drag(drop(ref))
 
-  return <StyledCard ref={ref}>{text}</StyledCard>
+  return (
+    <StyledCard ref={ref}>
+      <span style={{ float: 'left', display: 'inline-block', marginRight: '20px' }}>
+        {index + 1}
+      </span>
+      <span>{createCardName(card)}</span>
+      <span>
+        <Rating rating={card.rating} />
+      </span>
+    </StyledCard>
+  )
 }

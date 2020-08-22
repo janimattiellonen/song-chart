@@ -13,4 +13,4 @@ $itunes = new iTunesXMLParser();
 
 $itunes->open( $path );
 
-print_r( $itunes->data );
+print_r( $itunes->data);

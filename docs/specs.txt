@@ -17,12 +17,12 @@ each star consist of.
 
 Example:
 
-0 stars: no value
-1 star: 1-20
-2 stars: 21-40
-3 stars: 41-60
-4 stars: 61-80
-5 stars: 81-100
+0 stars: 0
+1 star: 20
+2 stars: 40
+3 stars: 60
+4 stars: 80
+5 stars: 100
 
 
 
@@ -42,4 +42,12 @@ song:
     - updated_at
 
 
+
+Features:
+
+    Lists:
+        - top-20 songs
+
+    Search:
+        - by song name
 

@@ -1,46 +1,35 @@
-import React, { useState, useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import update from 'immutability-helper'
 
 import styled from '@emotion/styled'
 
 import { Card } from './Card'
-import update from 'immutability-helper'
+
+import { fetchSongs } from '../ducks/songs'
 
 const style = {
-  width: 400
+  width: 400,
+  margin: '0 auto'
 }
 
 export const ChartList = () => {
-  const [cards, setCards] = useState([
-    {
-      id: 1,
-      text: 'Write a cool JS library'
-    },
-    {
-      id: 2,
-      text: 'Make it generic enough'
-    },
-    {
-      id: 3,
-      text: 'Write README'
-    },
-    {
-      id: 4,
-      text: 'Create some examples'
-    },
-    {
-      id: 5,
-      text:
-        'Spam in Twitter and IRC to promote it (note that this element is taller than the others)'
-    },
-    {
-      id: 6,
-      text: '???'
-    },
-    {
-      id: 7,
-      text: 'PROFIT'
+  const dispatch = useDispatch()
+
+  const [cards, setCards] = useState([])
+
+  const songs = useSelector((state) => state.songs.get('songs'))
+
+  useEffect(() => {
+    console.log('RETCHING NOW....')
+    dispatch(fetchSongs())
+  }, [])
+
+  useEffect(() => {
+    if (!!songs && songs.count()) {
+      setCards(songs.toArray())
     }
-  ])
+  }, [songs])
 
   const moveCard = useCallback(
     (dragIndex, hoverIndex) => {
@@ -58,12 +47,15 @@ export const ChartList = () => {
     },
     [cards]
   )
+
   const renderCard = (card, index) => {
-    return <Card key={card.id} index={index} id={card.id} text={card.text} moveCard={moveCard} />
+    return <Card card={card} index={index} moveCard={moveCard} />
   }
+
   return (
-    <>
-      <div style={style}>{cards.map((card, i) => renderCard(card, i))}</div>
-    </>
+    <div style={style}>
+      <h1>Top 20</h1>
+      {cards.map((card, i) => renderCard(card, i))}
+    </div>
   )
 }
